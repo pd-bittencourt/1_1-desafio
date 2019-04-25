@@ -12,13 +12,23 @@ nunjucks.configure('views', {
 app.use(express.urlencoded({ extended: false }))
 app.set('view engine', 'njk')
 
+let userAge = ''
+
 app.get('/', (req, res) => {
   return res.render('home')
 })
 
+app.get('/major', (req, res) => {
+  return res.render('major', { userAge })
+})
+
+app.get('/minor', (req, res) => {
+  return res.render('minor', { userAge })
+})
+
 app.post('/check', (req, res) => {
-  console.log(req.body)
-  if (req.body.age > 18) {
+  userAge = req.body.age
+  if (req.body.age >= 18) {
     return res.redirect('/major')
   } else {
     return res.redirect('/minor')
